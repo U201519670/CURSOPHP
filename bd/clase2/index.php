@@ -1,8 +1,3 @@
-<?php
-	require_once 'Estudiantes_modelo.php';
-	$estudiante = new Estudiantes_modelo();
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
