@@ -1,28 +1,25 @@
 <?php
-
     require_once 'controllers/UsuarioController.php';
     $usuario = new UsuarioController();
     $usuario->registro();
 
     session_start();
-    # $_SESSION['dato'] = 'valor';
-    # $_SESSION['rol'] = 'admin';
-    # session_destroy();
-    #$_GET['variable']; $_POST['variable'];
-    #CSRF
-
     if (empty($_SESSION['key'])) {
-        #bin2hex - random_bytes(tamaño)
-        $_SESSION['key'] = bin2hex( random_bytes(32) );
+        $_SESSION['key'] = bin2hex(random_bytes(32));
+        #bin2hex = Devuelve una cadena ascii que contiene la representación hexadecimal de un string que va en su parámetro
+        #random_bytes(32) = Genera bytes aleatorios seguros. es el tamaño de la cadena
     }
 
     #Crear CSRF token
     $csrf = hash_hmac('sha256', 'registro.php', $_SESSION['key']);
+    #hash_hmac = Genera un valor cifrado mediante una clave especificada usando el método HMAC
+    #el algoritmo para cifrar, md5, etc
+    #mensaje a cifrar
+    #clave secreta compartida que se usará para generar el mensaje cifrado
 
     if (isset($_POST['registrar'])) {
-
-        if (hash_equals ($csrf, $_POST['csrf'])) {
-
+        #hash_equals = compara las cadenas, cifradas empleando el mismo tiempos
+        if (hash_equals($csrf, $_POST['csrf'])) {
             $datos = array(
                 'nombre'   => $_POST['nombre'],
                 'apodo'    => $_POST['apodo'],
@@ -31,12 +28,10 @@
             );
             $usuario->guardarUsuario($datos);
         } else {
-            header("Location: error.php");
+            header('Location: error.php');
             die();
         }
     }
-
-
 ?>
 <body>
     <div class="container-fluid register-login">
@@ -51,12 +46,12 @@
                     <h1 class="register-login-h1">Registro</h1>
                     <p class="register-login-p">Por favor ingrese sus datos para crear su cuenta</p>
                     <?php
-                        if (isset ($_SESSION['mensaje'])) {
+                        if (isset($_SESSION['mensaje'])) {
                             echo "<div class='alert alert-primary' role='alert'>".$_SESSION['mensaje']."</div>";
                         }
                     ?>
-                    <form action="#" method="POST" name="registroForm" id="registroForm">
-                        <input type="hidden" name="csrf" id="csrf" value="<?php echo $csrf; ?>">
+                    <form action="registro.php" method="POST" name="registroForm" id="registroForm">
+                        <input type="hidden" name="csrf" id="csrf" value="<?php echo $csrf ?>">
                         <div class="row">
                             <div class="col-lg">
                                 <div class="form-group">
@@ -95,7 +90,7 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-lg-center">
-                            <button type="submit" id="registrar" name="registrar" class="btn btn-signup--register align-self-center">Aceptar</button>
+                            <button type="submit" name="registrar" class="btn btn-signup--register align-self-center">Aceptar</button>
                         </div>
                         <a href="#" class="register-link--haveaccount">¿Ya tiene una contraseña? Entrar</a>
                     </form>
