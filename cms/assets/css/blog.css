@@ -18,7 +18,27 @@
 
 .blog--title {
   font-size: 24px;
-  margin-top: 20px; }
+  margin-top: 20px;
+}
+
+.blog-space {
+  padding: 10rem 2rem;
+}
+
+.blog--comentarios {
+  background: #ebebeb;
+  padding: 2rem 1rem;
+}
+
+.blog--comentario{
+  padding-bottom: 1.5em;
+ }
+
+p.blog--titulo-comentarios{
+  font-size: 18px;
+  font-weight: bolder;
+  padding-bottom: 1.5em;
+}
 
 /*----------NEWS----------*/
 .container__news {

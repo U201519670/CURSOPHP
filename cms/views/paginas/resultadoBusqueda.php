@@ -2,11 +2,8 @@
   require_once 'controllers/BlogController.php';
   $blog = new BlogController();
   $categorias = $blog->obtenerCategorias();
-
-  if (isset($_POST['buscador'])) {
-    header('Location: index.php?page=buscar&cadena='.$_POST['cadena']);
-    die();
-  }
+  $cadena = $_GET['cadena'];
+  $resultados = $blog->buscarArticulos($cadena);
 ?>
 
   <nav class="nav navbar navbar-expand-lg d-lg-flex flex-lg-column align-items-lg-start">
@@ -49,83 +46,13 @@
   </nav>
 
   <div class="container-fluid blog">
-    <section class="row d-flex justify-content-between container__news">
-      <div class="col-12 col-xl-7 news p-0">
-        <div class="d-xl-flex">
-          <?php
-            $principal = $blog->mostrarArticulos('p', 1);
-            if (!empty($principal)) {
-              foreach ($principal as $r) {
-          ?>
-              <div class="news__image__contain">
-                <img class="news--image" src="https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-716116.jpg" alt="notice">
-              </div>
-              <div class="news__description">
-                <h1 class="blog--title">
-                  <a href="index.php?page=articulo&slug=<?=$r['slug'];?>"><?=$r['titulo'];?></a>
-                </h1>
-                <p class="text-justify"><?=$r['resumen'];?></p>
-              </div>
-          <?php } } ?>
-        </div>
-      </div>
-          <div class="col-12 col-xl-4 relevant">
-              <div class="relevant__head d-flex justify-content-between mb-4">
-                  <h2 class="h4 relevant--title">RELEVANTES</h2>
-                  <div class="container__arrows">
-                      <span class="arrow--left mr-5">
-                          <i class="fas fa-angle-left"></i>
-                      </span>
-                      <span class="arrow--right">
-                          <i class="fas fa-angle-right"></i>
-                      </span>
-                  </div>
-              </div>
-
-              <div class="relevant__body">
-                <?php
-                $relevantes = $blog->mostrarArticulos('r', 2);
-                if (!empty($relevantes)) {
-                  foreach ($relevantes as $r) { ?>
-                    <article class=" mb-5">
-                      <span class="relevant__article--category">
-                        <?=strtoupper($r['categoria']);?>
-                      </span>
-                      <h6 class="relevant__article--title">
-                        <a href="index.php?page=articulo&slug=<?=$r['slug'];?>"><?=$r['titulo'];?></a>
-                      </h6>
-                      <p class="relevant__article--p"><?=$r['resumen'];?></p>
-                      <em class="relevant__article--public">Publicador por <?=$r['apodo'];?></em>
-                    </article>
-                  <?php }
-                } ?>
-              </div>
-          </div>
-
-      </section>
-
+      <div class="clearfix">&nbsp;</div>
       <section class="row d-flex justify-content-between">
           <div class="col-12 col-xl-8">
-              <!-- Buscador -->
-              <form action="" method="POST" name="buscarForm" id="buscarForm">
-                <div class="form-row align-items-center">
-                  <div class="col-auto">
-                    <div class="input-group mb-2">
-                      <input type="text" class="form-control form-control-sm" id="cadena" name="cadena" placeholder="Buscar...">
-                    </div>
-                  </div>
-                  <div class="col-auto">
-                    <button type="submit" id="buscador" name="buscador" class="btn btn-sm btn-primary mb-2">Buscar</button>
-                  </div>
-                </div>
-              </form>
-              <div class="clearfix">&nbsp;</div>
-              <!-- End Buscador -->
-              <h2 class="h4 mb-5">ÚLTIMAS PUBLICACIONES</h2>
+              <h2 class="h4 mb-5">RESULTADOS BÚSQUEDA [<?=$cadena;?>]</h2>
               <?php
-                $ultimos = $blog->mostrarArticulos('', 10);
-                if (!empty($ultimos)) {
-                  foreach ($ultimos as $r) { ?>
+                if (!empty($resultados)) {
+                  foreach ($resultados as $r) { ?>
                     <div class="post">
                       <!--<div class="post__img__contain">
                         <img class="post--img" src="../imagenes/post@2x.png" alt="">

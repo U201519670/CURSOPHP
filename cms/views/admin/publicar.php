@@ -5,10 +5,11 @@
 
   if (isset($_POST['publicar'])) {
     $datos = array(
-        'titulo'        => $_POST['titulo'],
-        'id_categoria'  => $_POST['id_categoria'],
-        'resumen'       => $_POST['resumen'],
-        'contenido'     => $_POST['contenido'],
+        'titulo'       => $_POST['titulo'],
+        'id_categoria' => $_POST['id_categoria'],
+        'resumen'      => $_POST['resumen'],
+        'contenido'    => $_POST['contenido'],
+        'tipo'         => $_POST['tipo']
     );
     $blog->guardarPublicacion($datos);
   }
@@ -42,10 +43,12 @@
               ?>
               <form action="index.php?page=publicar" method="POST" name="publicarForm" id="publicarForm">
                 <div class="form-row">
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-12">
                     <label for="inputEmail4">Título</label>
                     <input type="text" class="form-control" id="titulo" name="titulo" placeholder="">
                   </div>
+                </div>
+                <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="inputPassword4">Categoría</label>
                     <select id="id_categoria" name="id_categoria" class="form-control">
@@ -57,6 +60,15 @@
                           }
                         }
                       ?>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="inputPassword4">Tipo</label>
+                    <select id="tipo" name="tipo" class="form-control">
+                      <option value="0">Seleccione el tipo</option>
+                      <option value="p">Principal</option>
+                      <option value="r">Relevante</option>
+                      <option value="n">Normal</option>
                     </select>
                   </div>
                 </div>
@@ -81,16 +93,23 @@
                 <thead class="t-head">
                   <tr>
                     <th scope="col">Título</th>
-                    <th scope="col">Comentarios</th>
+                    <th scope="col">Resumen</th>
                     <th scope="col">Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                  </tr>
+                  <?php
+                    $articulos = $blog->mostrarArticulos('', 10);
+                    if (!empty($articulos)) {
+                      foreach ($articulos as $r) {
+                        echo "<tr>";
+                          echo "<td>".$r['titulo']."</td>";
+                          echo "<td>".$r['resumen']."</td>";
+                          echo "<td>Editar | Eliminar</td>";
+                        echo "</tr>";
+                      }
+                    }
+                  ?>
                 </tbody>
               </table>
             </div>
