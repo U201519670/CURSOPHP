@@ -42,11 +42,6 @@ class BlogController {
 		return $articulos->mostrarArticulos('', $limite);
 	}
 
-	private function crearSlug($titulo) {
-		$slug = preg_replace('/[^A-Za-z0-9-]+/', '-', $titulo);
-   	return $slug;
-	}
-
 	public function leerArticulo() {
 		require_once('./views/includes/cabecera.php');
     require_once('./views/paginas/leerArticulo.php');
@@ -60,11 +55,17 @@ class BlogController {
 
 	public function publicarComentario($datos) {
 		$articulo = new Blog();
+		//comentario, slug
 		$datos['id_usuario'] = $_SESSION['id_usuario'];
+		//comentario, slug, id_usuario
 		$id_articulo = $this->obtenerIdArticulo($datos['slug']);
 		$datos['id_articulo'] = $id_articulo;
+		//comentario, slug, id_usuario,id_articulo
 		unset($datos['slug']);
+		//comentario, id_usuario,id_articulo
+
 		return $articulo->guardarComentario($datos);
+
 	}
 
 	public function obtenerComentarios($slug) {
@@ -90,6 +91,11 @@ class BlogController {
 		foreach ($id as $r){
 			return $r['id'];
 		}
+	}
+
+	private function crearSlug($titulo) {
+		$slug = preg_replace('/[^A-Za-z0-9-]+/', '-', $titulo);
+   	return $slug;
 	}
 
 

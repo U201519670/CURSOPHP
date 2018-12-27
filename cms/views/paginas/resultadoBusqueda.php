@@ -2,8 +2,10 @@
   require_once 'controllers/BlogController.php';
   $blog = new BlogController();
   $categorias = $blog->obtenerCategorias();
-  $cadena = $_GET['cadena'];
-  $resultados = $blog->buscarArticulos($cadena);
+  #http://curso-php.test/cms/index.php?page=blog&cadena='nodejs'
+  $cadena = $_GET['cadena']; #&cadena='nodejs'
+
+
 ?>
 
   <nav class="nav navbar navbar-expand-lg d-lg-flex flex-lg-column align-items-lg-start">
@@ -51,6 +53,7 @@
           <div class="col-12 col-xl-8">
               <h2 class="h4 mb-5">RESULTADOS BÚSQUEDA [<?=$cadena;?>]</h2>
               <?php
+                $resultados = $blog->buscarArticulos($cadena);
                 if (!empty($resultados)) {
                   foreach ($resultados as $r) { ?>
                     <div class="post">

@@ -7,6 +7,7 @@
     header('Location: index.php?page=buscar&cadena='.$_POST['cadena']);
     die();
   }
+
 ?>
 
   <nav class="nav navbar navbar-expand-lg d-lg-flex flex-lg-column align-items-lg-start">

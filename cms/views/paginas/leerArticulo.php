@@ -4,15 +4,19 @@
   $categorias = $blog->obtenerCategorias();
   $slug = $_GET['slug'];
   session_start();
-  if (isset($_POST['enviar'])) {
+
+  if (isset ($_POST['enviar'])) {
     if (!empty($_POST['comentario'])) {
       $datos = array(
         'comentario' => $_POST['comentario'],
-        'slug'       => $slug,
+        'slug'       => $slug
       );
+
       $blog->publicarComentario($datos);
+
     }
   }
+
 ?>
 
   <nav class="nav navbar navbar-expand-lg d-lg-flex flex-lg-column align-items-lg-start">
