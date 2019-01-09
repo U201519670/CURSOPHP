@@ -14,6 +14,8 @@
     <div class="container-fluid d-flex justify-content-end display-lg-none">
       <a class="gray-opacity" href="#">Iniciar sesión</a>
       <a class="gray-opacity margin-left-20" href="#">Registro</a>
+      <a class="gray-opacity margin-left-20" target="_blank" href="https://api.whatsapp.com/send?phone=52111111&text=Hola, ¿me puedes ayudar?">Envíame un mensaje</a>
+      <a class="gray-opacity margin-left-20" target="_blank" href="https://wa.me/52111111?text=Hola, ¿me puedes ayudar?">Envíame un mensaje</a>
     </div>
     <a class="navbar-brand nav--title" href="#"><?php echo NOMBRE_BLOG; ?></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -147,11 +149,11 @@
           </div>
 
           <aside class="sidebar col-12 col-xl-3 d-lg-flex flex-xl-column">
-              <div class="widget__twitter text-center">
-                  <p>widget</p>
+              <div class="widget__twitter text-center" style="overflow: scroll;">
+                <?php require_once 'views/widgets/timelineTwitter.php'; ?>
               </div>
               <div class="widget__comment text-center">
-                  <p>widget</p>
+                <?php require_once 'views/widgets/mapa.php'; ?>
               </div>
           </aside>
       </section>

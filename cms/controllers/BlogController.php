@@ -27,14 +27,71 @@ class BlogController {
 		return $categorias->obtenerCategorias();
 	}
 
+	public function validarImagen($portada) {
+
+		$directorio = 'portadas/'; #Directorio en dónde guardamos la imagen
+		$archivo = $directorio.basename($portada['name']); //portadas/nombre.extesion
+		
+		#pathinfo - Devuelve información acerca de la ruta de un archivo
+		#PATHINFO_EXTENSION. Cuál es la extensión del archivo
+
+		//jpeg, gif, jpg, png
+		$tipoArchivo = strtolower(pathinfo($archivo, PATHINFO_EXTENSION));
+		$validar = getimagesize($portada['tmp_name']);
+
+		if ($validar !== false) {
+
+			//jpeg, gif, jpg, png
+			if ($tipoArchivo !== 'jpg' && $tipoArchivo !== 'png' && $tipoArchivo !== 'jpeg' && $tipoArchivo !== 'jpeg') {
+				$respuesta['mensaje'] = "No es un formato válido";
+				$respuesta['codigo'] = 400;
+			}
+
+			#Tamaño del archivo en byts - 1024 / tamaño
+			if ($portada['size'] > 50000) {
+				$respuesta['mensaje'] = "El archivo es muy grande";
+				$respuesta['codigo'] = 400;
+			}
+
+			//$archivo = $directorio.basename($portada['name']); //portadas/nombre.extesion
+			if (file_exists($archivo)) {
+				$respuesta['mensaje'] = "No lo puedes subir, el archivo ya existe";
+				$respuesta['codigo'] = 400;
+			} else {
+				$respuesta['mensaje'] = "Si es válido, lo puedes subir";
+				$respuesta['codigo'] = 200;
+			}
+		} else {
+			$respuesta['mensaje'] = "No es una imagen";
+			$respuesta['codigo'] = 400;
+		}
+
+		return json_encode($respuesta, JSON_PRETTY_PRINT);
+
+		/*
+			 { respuesta: 'mensaje', 'codigo': 200 };
+		*/
+
+
+	}
+
 	public function guardarPublicacion($datos) {
+		$directorio = 'portadas/';
+		$portada = $datos['portada'];
+		$archivo = $directorio.basename($portada['name']); //portadas/nombre.extension
+
 		date_default_timezone_set('UTC');
 		$articulo = new Blog();
 		$datos['publicado_por'] = $_SESSION['id_usuario'];
 		$datos['fecha_creacion'] = date('Y-m-d');
 		$datos['hora_creacion'] = date('h:i:s');
 		$datos['slug'] = $this->crearSlug($datos['titulo']);
-		return $articulo->guardarPublicacion($datos);
+		$datos['portada'] = $portada['name'];
+
+		if (move_uploaded_file($portada['tmp_name'], $archivo)) {
+			return $articulo->guardarPublicacion($datos);
+		}
+
 	}
 
 	public function mostrarArticulos($tipo, $limite) {

@@ -4,14 +4,23 @@
   $categorias = $blog->obtenerCategorias();
 
   if (isset($_POST['publicar'])) {
-    $datos = array(
-        'titulo'       => $_POST['titulo'],
-        'id_categoria' => $_POST['id_categoria'],
-        'resumen'      => $_POST['resumen'],
-        'contenido'    => $_POST['contenido'],
-        'tipo'         => $_POST['tipo']
-    );
-    $blog->guardarPublicacion($datos);
+
+    //{ respuesta: 'mensaje', 'codigo': 200 };
+    $respuestaImagen = $blog->validarImagen($_FILES['portada']);
+    $validarImagen = json_decode($respuestaImagen, true);
+    //$respuesta['mensaje'] = 'mensaje', $respuesta['codigo'] = 200/400
+
+    if ($validarImagen['codigo'] == 200) {
+      $datos = array(
+          'titulo'       => $_POST['titulo'],
+          'id_categoria' => $_POST['id_categoria'],
+          'resumen'      => $_POST['resumen'],
+          'contenido'    => $_POST['contenido'],
+          'tipo'         => $_POST['tipo'],
+          'portada'      => $_FILES['portada']
+      );
+      $blog->guardarPublicacion($datos);
+    }
   }
 ?>
 <div class="container-fluid dashboard">
@@ -41,7 +50,7 @@
                   echo "<div class='alert alert-primary' role='alert'>".$_SESSION['mensaje']."</div>";
                 }
               ?>
-              <form action="index.php?page=publicar" method="POST" name="publicarForm" id="publicarForm">
+              <form action="index.php?page=publicar" method="POST" name="publicarForm" id="publicarForm" enctype="multipart/form-data">
                 <div class="form-row">
                   <div class="form-group col-md-12">
                     <label for="inputEmail4">Título</label>
@@ -79,6 +88,10 @@
                 <div class="form-group">
                   <label for="inputAddress2">Contenido</label>
                   <textarea class="form-control" id="contenido" name="contenido" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="inputAddress2">Portada</label>
+                  <input type="file" class="form-control" id="portada" name="portada">
                 </div>
                 <button type="submit" name="publicar" id="publicar" class="btn btn-primary">Publicar</button>
               </form>
