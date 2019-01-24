@@ -1,7 +1,6 @@
 <?php
 
 require_once 'config.php';
-
 $page = $_GET['page'];
 
 if (!empty($page)) {
