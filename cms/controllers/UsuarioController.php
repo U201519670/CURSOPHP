@@ -20,6 +20,7 @@ class UsuarioController {
 
 	public function guardarUsuario($datos) {
 		$errores = '';
+		$datos['id_rol'] = 1;
 		if (!isset($datos['nombre'])) {
 			$errores .= '<p>Falta el nombre</p>';
 		} else if (!isset($datos['apodo'])) {

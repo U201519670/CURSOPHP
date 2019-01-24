@@ -4,23 +4,21 @@
   $categorias = $blog->obtenerCategorias();
 
   if (isset($_POST['publicar'])) {
-
-    //{ respuesta: 'mensaje', 'codigo': 200 };
     $respuestaImagen = $blog->validarImagen($_FILES['portada']);
     $validarImagen = json_decode($respuestaImagen, true);
-    //$respuesta['mensaje'] = 'mensaje', $respuesta['codigo'] = 200/400
-
     if ($validarImagen['codigo'] == 200) {
       $datos = array(
-          'titulo'       => $_POST['titulo'],
-          'id_categoria' => $_POST['id_categoria'],
-          'resumen'      => $_POST['resumen'],
-          'contenido'    => $_POST['contenido'],
-          'tipo'         => $_POST['tipo'],
-          'portada'      => $_FILES['portada']
+        'titulo'       => $_POST['titulo'],
+        'id_categoria' => $_POST['id_categoria'],
+        'resumen'      => $_POST['resumen'],
+        'contenido'    => $_POST['contenido'],
+        'tipo'         => $_POST['tipo'],
+        'portada'      => $_FILES['portada']
       );
       $blog->guardarPublicacion($datos);
     }
+  } else {
+
   }
 ?>
 <div class="container-fluid dashboard">

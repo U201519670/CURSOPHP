@@ -1,0 +1,21 @@
+Para hacer un registro de usuario debemos hablar de un tema de gran importancia como son las sesiones.
+
+Sirven para persistir la información mientras que nuestros usuarios están navegando. 
+
+Debemos estar seguros que mientras navega nuestro usuario la sesión permanece sin cambios hasta que el usuario cierre sesión o cierre su navegador.
+
+Las sesiones son una forma sencilla de almacenar datos para usuarios de manera individual usando un ID de sesión único
+
+Iniciar sesion -> session_start();
+$dato = '123456';
+
+Variable de sesion -> $_SESSION['dato'] = $dato;
+
+Cerrar session -> session_destroy();
+
+
+HABLAR EN OTRA CLASE DE COOKIES
+Cookie: Es un archivo que se guarda en la computadora del usuario que visita nuestro sitio con la finalidad de recordar datos.
+
+Crear -> setcookie('nombre', 'valor, solo texto', caducidad);
+setcookie('galleta', 'mi galleta');

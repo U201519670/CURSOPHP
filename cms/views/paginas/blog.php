@@ -7,15 +7,15 @@
     header('Location: index.php?page=buscar&cadena='.$_POST['cadena']);
     die();
   }
-
 ?>
 
   <nav class="nav navbar navbar-expand-lg d-lg-flex flex-lg-column align-items-lg-start">
     <div class="container-fluid d-flex justify-content-end display-lg-none">
       <a class="gray-opacity" href="#">Iniciar sesión</a>
       <a class="gray-opacity margin-left-20" href="#">Registro</a>
-      <a class="gray-opacity margin-left-20" target="_blank" href="https://api.whatsapp.com/send?phone=52111111&text=Hola, ¿me puedes ayudar?">Envíame un mensaje</a>
-      <a class="gray-opacity margin-left-20" target="_blank" href="https://wa.me/52111111?text=Hola, ¿me puedes ayudar?">Envíame un mensaje</a>
+      <a class="gray-opacity margin-left-20" target="_blank" href="https://wa.me/5213316923799?text=Hola, ¿me puedes ayudar?">Envíame un mensaje</a>
+      <a class="gray-opacity margin-left-20" href="index.php?page=blog&lang=es">ES</a>
+      <a class="gray-opacity margin-left-20" href="index.php?page=blog&lang=en">EN</a>
     </div>
     <a class="navbar-brand nav--title" href="#"><?php echo NOMBRE_BLOG; ?></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,10 +59,11 @@
             $principal = $blog->mostrarArticulos('p', 1);
             if (!empty($principal)) {
               foreach ($principal as $r) {
-          ?>
-              <div class="news__image__contain">
-                <img class="news--image" src="https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-716116.jpg" alt="notice">
-              </div>
+                if ($r['portada']) { ?>
+                <div class="news__image__contain">
+                  <img class="news--image" src="portadas/<?=$r['portada'];?>" alt="notice">
+                </div>
+                <?php } ?>
               <div class="news__description">
                 <h1 class="blog--title">
                   <a href="index.php?page=articulo&slug=<?=$r['slug'];?>"><?=$r['titulo'];?></a>
@@ -130,9 +131,11 @@
                 if (!empty($ultimos)) {
                   foreach ($ultimos as $r) { ?>
                     <div class="post">
-                      <!--<div class="post__img__contain">
-                        <img class="post--img" src="../imagenes/post@2x.png" alt="">
-                      </div>-->
+                      <?php if ($r['portada']) { ?>
+                        <div class="post__img__contain">
+                          <img class="post--img" src="portadas/<?=$r['portada'];?>" alt="">
+                        </div>
+                      <?php } ?>
                       <div class="post__description">
                         <h6 class="h4 post__description--title">
                           <a href="index.php?page=articulo&slug=<?=$r['slug'];?>">
@@ -149,10 +152,13 @@
           </div>
 
           <aside class="sidebar col-12 col-xl-3 d-lg-flex flex-xl-column">
+              <div class="widget__videos text-center">
+                <a href=""><img src="https://img.youtube.com/vi/3rEWfnioZzs/hqdefault.jpg" alt="video"></a>
+              </div>
               <div class="widget__twitter text-center" style="overflow: scroll;">
                 <?php require_once 'views/widgets/timelineTwitter.php'; ?>
               </div>
-              <div class="widget__comment text-center">
+              <div class="widget__mapa text-center">
                 <?php require_once 'views/widgets/mapa.php'; ?>
               </div>
           </aside>
